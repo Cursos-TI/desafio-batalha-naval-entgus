@@ -1,40 +1,77 @@
 #include <stdio.h>
+#include <stdlib.h>
+/*DEFINIR NUMERO EQUIVALENTES A COLUNA E A LINHA*/
+#define linha 10
+#define coluna 10
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+/*RECURSIVOS DA MATRIZ E DO DESENHO DA CRUZ, CONE E LOSANGO*/
+
+/*USANDO O 'FOR' PARA A REPETIÇAO DA MATRIZ */
+void desenharMatriz(int matriz[linha][coluna]) {
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
+            printf(" %d", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void desenharCruz(int matriz[linha][coluna], int x, int y, int tamanho) {
+    for (int i = -tamanho; i <= tamanho; i++) {
+        /*DEFINDO O LIMITE E AS CORDENADAS DA CRUZ*/
+        if (x + i >= 0 && x + i < linha) matriz[x + i][y] = 1; 
+        if (y + i >= 0 && y + i < coluna) matriz[x][y + i] = 1; 
+    }
+}
+
+
+void desenharCone(int matriz[linha][coluna], int x, int y, int LINHA) {
+    int centro = y; 
+    for (int i = 0; i < LINHA; i++) {
+        int inicio = centro - i;
+        int fim = centro + i;
+        for (int j = inicio; j <= fim; j++) {
+            /*DEFINDO O LIMITE E AS CORDENADAS DO CONE*/
+            if (j >= 0 && j < coluna && (x - i) >= 0) { 
+                matriz[x + i][j] = 1;
+            }
+        }
+    }
+}
+
+
+void desenharLosango(int matriz[linha][coluna], int x, int y, int tamanho) {
+    for (int i = -tamanho; i <= tamanho; i++) {
+        /*DEFINDO O LIMITE E AS CORDENADAS DO LOSANGO(USO DO ABS PARA TORNAR O NUMERO POSITIVO)*/
+        for (int j = -tamanho + abs(i); j <= tamanho - abs(i); j++) {
+            if (x + i >= 0 && x + i < linha && y + j >= 0 && y + j < coluna) {
+                matriz[x + i][y + j] = 1;
+            }
+        }
+    }
+}
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int matriz[linha][coluna];
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+/*INCIALIZANDO MATRIZ COM 0*/
+    for (int i = 0; i < linha; i++) {
+        for (int j = 0; j < coluna; j++) {
+            matriz[i][j] = 0;        
+        }
+    }
+    /*DESENHAR UMA CRUZ*/
+   desenharCruz(matriz, 2,2,2);
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
+   /*DESENHAR UM CONE*/
+    desenharCone(matriz, 2, 7, 3);
     
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    /*DESENHAR UM LOSANGO*/
+    desenharLosango(matriz, 7, 3, 2);
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    /*EXIBIR A MATRIZ*/
+    desenharMatriz(matriz);
 
     return 0;
 }
